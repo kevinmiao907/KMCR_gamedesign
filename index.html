@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Miao - 室内设计 / 游戏设计师 / 3D美术</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; 
+            color: #1e293b; 
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            cursor: pointer;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(14, 165, 233, 0.4);
+        }
+        .tag {
+            background: rgba(14, 165, 233, 0.1);
+            color: #0284c7;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        .media-container {
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+            background: #e2e8f0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .media-container img, .media-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.7s ease;
+        }
+        .glass-card:hover .media-container img, 
+        .glass-card:hover .media-container video {
+            transform: scale(1.03);
+        }
+        
+        /* Modal Styles */
+        #log-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+        }
+        .log-image {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin: 1.5rem 0;
+        }
+        .comparison-label {
+            position: absolute;
+            bottom: 8px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- 导航栏 -->
+    <nav class="fixed w-full z-50 glass-card border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter text-sky-600">KMCR<span class="text-slate-800">.Game Design</span></div>
+            <div class="space-x-6 text-sm font-medium hidden md:flex text-slate-600">
+                <a href="#about" class="hover:text-sky-600 transition">关于我</a>
+                <a href="#projects" class="hover:text-sky-600 transition">游戏项目</a>
+                <a href="#3d-art" class="hover:text-sky-600 transition">3D与动画</a>
+                <a href="https://space.bilibili.com/12801524" target="_blank" class="text-sky-600 hover:text-sky-500 transition">Bilibili主页 ↗</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 头部介绍区 -->
+    <header id="about" class="pt-32 pb-16 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-slate-900">缪超然 Kevin <span class="text-sky-600 block md:inline">(KMCR)</span></h1>
+        <h2 class="text-xl md:text-2xl text-slate-500 mb-8 max-w-2xl leading-relaxed font-medium">
+            游戏设计 | 关卡策划/美术 | 3D美术 | 室内设计
+        </h2>
+        <p class="text-slate-600 max-w-3xl leading-relaxed mb-10 text-lg">
+            游戏设计、环境与室内设计双重背景，擅长将现实空间美学与游戏机制相融合，致力于在虚拟空间中探索“有意义的选择”与玩家动线引导。以实体空间的设计逻辑赋能虚拟世界的自由创造。渴望在追求极致的团队中，通过不断地学习与实践，在未来成长为一名优秀的游戏设计师。
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <span class="tag px-4 py-2 rounded-full text-sm font-semibold">Unity 3D/2D</span>
+            <span class="tag px-4 py-2 rounded-full text-sm font-semibold">Level Design</span>
+            <span class="tag px-4 py-2 rounded-full text-sm font-semibold">Unreal Engine 5</span>
+            <span class="tag px-4 py-2 rounded-full text-sm font-semibold">Maya</span>
+            <span class="tag px-4 py-2 rounded-full text-sm font-semibold">C# Scripting</span>
+            <span class="tag px-4 py-2 rounded-full text-sm font-semibold">UI/UX</span>
+	    <span class="tag px-4 py-2 rounded-full text-sm font-semibold">Adobe Suite</span>
+        </div>
+    </header>
+
+    <!-- 核心游戏项目区 -->
+    <section id="projects" class="py-16 px-6 max-w-7xl mx-auto">
+        <h3 class="text-3xl font-bold mb-10 flex items-center gap-3 text-slate-900">
+            <span class="w-8 h-1 bg-sky-500 rounded"></span> 游戏设计与开发（点击卡片查看开发日志！！！）
+        </h3>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            
+            <!-- 项目：Hyper Jump -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col" onclick="openLog('hyper-jump')">
+                <div class="media-container">
+                    <video autoplay loop muted playsinline>
+                        <source src="Hyper Jump Trailer.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute top-4 right-4 bg-sky-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Gameplay Video</div>
+                </div>
+                <div class="p-8 flex-1 flex flex-col">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-2">Hyper Jump 3D Demo</h4>
+                    <p class="text-sky-600 text-sm mb-4 font-semibold">Unity 3D | C# 开发 | 3D平台跳跃与空间布局</p>
+                    <p class="text-slate-600 text-sm leading-relaxed text-sm">
+                        通过兼具挑战性与节奏感的 3D 移动平台。独立完成了从操控物体移动跳跃，到敌人 AI 逻辑、击杀反馈、金币收集系统及完整的 UI 菜单开发。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 项目：Moku -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col" onclick="openLog('moku')">
+                <div class="media-container" style="background-color: #e5e7eb;">
+                    <video autoplay loop muted playsinline class="w-full h-full object-contain">
+                        <source src="Moku Demo.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="p-8 flex-1 flex flex-col">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-2">Moku（墨）: 汉字解谜 Demo</h4>
+                    <p class="text-sky-600 text-sm mb-4 font-semibold">Unity 2D | UI层交互 | 合作开发</p>
+                    <p class="text-slate-600 text-sm leading-relaxed text-sm">
+                        2D游戏设计，将所有核心交互置于 UI 层面。玩家通过生成、拖拽、组合与拆分汉字“偏旁部首”来解谜，重构了针对 UI 元素的 Drag-and-drop 系统。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 项目：DONT LOOK BACK -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+                <div class="media-container">
+                    <video autoplay loop muted playsinline class="w-full h-full object-contain">
+                        <source src="N++游玩.mp4" type="video/mp4">
+                    </video>
+
+                </div>
+                <div class="p-8 flex-1 flex flex-col">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-2">DONT LOOK BACK （N++关卡设计）</h4>
+                    <p class="text-sky-600 text-sm mb-4 font-semibold">N++ 关卡编辑器 | 动量控制 | 玩家心理引导</p>
+                    <p class="text-slate-600 text-sm leading-relaxed text-sm">
+                        游戏的核心目标是让玩家“与自己竞速”。通过生成完全模仿玩家几秒前动作的“邪恶影子”，强制玩家不断向前冲刺，跳跃，逃离，不要回头！
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- 项目：I'm Over This! -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+                <div class="media-container">
+                    <video autoplay loop muted playsinline>
+                        <source src="I'm Over This! 2025.02.17 - 10.07.40.03.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute top-4 right-4 bg-sky-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Prototype Video</div>
+                </div>
+                <div class="p-8 flex-1 flex flex-col">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-2">I'm Over This! （关卡原型）</h4>
+                    <p class="text-sky-600 text-sm mb-4 font-semibold">Unity 3D | 快速原型 | 关卡白盒</p>
+                    <p class="text-slate-600 text-sm leading-relaxed text-sm">
+                        陷阱躲避关卡原型。要求玩家控制球体在狭窄通道中精准预判并躲避移动墙壁。尝试短时间内构建出具备优秀可玩性的白盒关卡。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 项目：末日生存文字冒险 -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col lg:flex-row lg:col-span-2" onclick="openLog('last-day')">
+                <div class="lg:w-1/2 media-container" style="height: auto; min-height: 300px;">
+                    <video autoplay loop muted playsinline>
+                        <source src="末日生存文字.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="p-8 lg:w-1/2 flex flex-col justify-center bg-white/50">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-2">多重选择叙事游戏：The Last Day of World</h4>
+                    <p class="text-sky-600 text-sm mb-4 font-semibold">叙事结构设计 | Meaningful Choice</p>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4 text-sm">
+                        基于“故事线切换选择” (Track Switching Choice) 结构的文字生存冒险游戏。游戏发生在丧尸病毒爆发的清晨，玩家的每个决定都会直接影响分支走向。
+                    </p>
+                    <p class="text-slate-600 text-sm leading-relaxed text-sm">
+                        深入探索即使游戏的结局已经注定，玩家如何通过“选择的幻觉”（Illusion of choice）在游玩时得到情感上和选择上的反馈。
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3D美术与动画区 -->
+    <section id="3d-art" class="py-16 px-6 max-w-7xl mx-auto mb-16">
+        <h3 class="text-3xl font-bold mb-10 flex items-center gap-3 text-slate-900">
+            <span class="w-8 h-1 bg-purple-500 rounded"></span> 3D 美术、渲染与动画（点击卡片查看开发日志！！！）
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- 3D 渲染 -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col" onclick="openLog('dragon-plush')">
+                <div class="media-container" style="height: 220px;">
+                    <img src="建模渲染1.jpg" alt="Still Life Render">
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">龙型布偶建模与渲染</h4>
+                    <p class="text-purple-600 text-xs mb-3 font-semibold">Maya | Poly Modeling | UV Mapping</p>
+                    <p class="text-slate-600 text-sm leading-relaxed text-xs">
+                        在建模遇到困难时如何随机应变，运用布料纹理替代毛发。攻克非对称模型 UV 展开难题，最终通过精调焦距完成高质量出图。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- 社交距离动画 -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col" onclick="openLog('social-distance')">
+                <div class="media-container" style="height: 220px;">
+                    <video autoplay loop muted playsinline>
+                        <source src="社交距离.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">"社交距离" 隐喻动画</h4>
+                    <p class="text-purple-600 text-xs mb-3 font-semibold">Maya Animation | WavePad Audio</p>
+                    <p class="text-slate-600 text-sm leading-relaxed text-xs">
+                        隐喻疫情隔离。为球体创建独立运动轨迹，精调位移与挤压拉伸，并独立完成音频混合。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 子弹时间测试 (实装对比布局) -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+                <div class="media-container flex" style="height: 220px; background: black;">
+                    <!-- 左侧：参考参考 GIF -->
+                    <div class="w-1/2 relative border-r border-slate-800">
+                        <img src="子弹时间参考.gif" alt="Reference" class="w-full h-full object-cover">
+                        <span class="comparison-label left-2 bg-slate-900/80 text-slate-300">参考 Reference</span>
+                    </div>
+                    <!-- 右侧：最终视频 -->
+                    <div class="w-1/2 relative">
+                        <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                            <source src="子弹时间.mp4" type="video/mp4">
+                        </video>
+                        <span class="comparison-label right-2 bg-sky-600/90 text-white">作品 Result</span>
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                    <h4 class="text-xl font-bold text-slate-900 mb-2">镜头语言与运镜测试</h4>
+                    <p class="text-purple-600 text-xs mb-3 font-semibold">Camera Animation | Bullet Time</p>
+                    <p class="text-slate-600 text-sm leading-relaxed text-xs">
+                        基于电影黑客帝国的名场景，对 3D 空间的子弹时间的环绕运镜进行探索，在UE5中通过白模进行镜头创作，并且优化对动态节奏与空间构图的掌控力。
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 底部栏 -->
+    <footer class="border-t border-slate-200 mt-10 py-8 text-center text-slate-500 text-sm">
+        <p>&copy; 2026 Kevin Miao (KMCR). All game concepts and 3D renders are created by the author.</p>
+    </footer>
+
+    <!-- 日志弹窗结构 -->
+    <div id="log-modal" onclick="closeLog(event)">
+        <div class="max-w-4xl mx-auto my-10 bg-white rounded-3xl overflow-hidden shadow-2xl relative" onclick="event.stopPropagation()">
+            <button onclick="closeLog()" class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition z-10">✕</button>
+            <div id="modal-body" class="modal-content p-10 md:p-16">
+                <!-- 内容由 JS 动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const logs = {
+            'hyper-jump': {
+                title: 'Hyper Jump 3D 开发日志',
+                content: `
+                    <div class="space-y-12">
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">从零开始的游戏开发之旅</h5>
+                            <p class="text-slate-600 mb-4">这是我第一次尝试使用Unity独立开发游戏Demo。创作过程对我来说充满了挑战：我需要从零学习编程，并且研究如何让游戏既具挑战性的同时保持趣味性。</p>
+                            <img src="Hyper Jump日志图片1.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：初次搭建 3D 平台关卡的编辑器视角</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">脚本编写：痛苦与成就感并存</h5>
+                            <p class="text-slate-600 mb-4">由于我之前缺乏编程经验。因此编写脚本是整个创作过程中最令我头疼的部分。一旦写错一行代码，我往往需要花费更长的时间去排查 Bug。但排除了这些“烦恼”，每当一个功能脚本能够成功运行并实现预期效果时，那种巨大的成就感也是最令我引以为豪的！</p>
+                            <img src="Hyper Jump日志图片2.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：项目中编写的各种功能脚本逻辑一览</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">专业优势：地图制作与关卡设计</h5>
+                            <p class="text-slate-600 mb-4">作为一名环境与室内设计专业的学生，地图制作（Map-making）的部分让我感到非常惬意。我尝试了许多不同的平台排列方式和移动方式，以确保游戏的挑战性。此外，我在可控角色的移动，跳跃系统之外还加入了敌人系统、击杀系统以及金币收集机制，让游戏的可玩性更高。</p>
+                            <img src="Hyper Jump日志图片3.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：Hierarchy 层级中的关卡结构与对象管理</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">完善游戏闭环：UI 与菜单</h5>
+                            <p class="text-slate-600 mb-4">为了让《Hyper Jump》看起来更像一款拥有完整可玩性的游戏Demo，我还制作了开始菜单（Start Menu）和结算菜单（End Menu）。所有的按钮都是可交互的，这当然也意味着更多的编程和代码挑战！</p>
+                            <img src="Hyper Jump日志图片4.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：场景切换逻辑与完整可交互的 UI 界面</p>
+                        </section>
+                    </div>
+                `
+            },
+            'moku': {
+                title: 'Moku: 汉字拆解与逆向思维解谜日志',
+                content: `
+                    <div class="space-y-12">
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">挑战引擎的固有规则 (Against the Grain)</h5>
+                            <p class="text-slate-600 mb-4">这个Demo起始于“Against the Grain”这一概念，我的第一想法是挑战游戏引擎预定义的规则。Unity 的默认形式往往是一种可识别的美学风格或交互模式，使游戏第一眼看起来就非常的可想而知，也可以说是我们常说的“典”。经过讨论，我和组员决定开发一个以汉字为核心的独特模式，创造与众不同的游戏体验。</p>
+                            <img src="Moku.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：Moku 最终交互视觉呈现</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">语言结构的探索与拆解</h5>
+                            <p class="text-slate-600 mb-4">我们的游戏允许玩家通过生成、拖拽、组合和拆分汉字字符，来探索语言的结构和意义。这挑战了“游戏纯粹是为了玩”的传统观念——玩家在使用碎片元素构建汉字的同时，也在深化对语言本身的理解，实现“寓教于乐”的逆向解谜体验。</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">技术挑战：全 UI 层交互系统</h5>
+                            <p class="text-slate-600 mb-4">我们将游戏定位于 2D 设计，这本身就是对主流 3D 游戏市场趋势的一种背离。另一个核心特色是所有的交互都发生在 UI 层面，这在大多数 Unity 游戏中是不常见的。由于 Unity 内置的拖放事件（Drag-and-drop）主要针对 3D 对象设计，要在 UI 内部实现稳定且流畅的交互系统具有很大挑战。我和组员花费了大量时间进行编程，以确保系统的响应性与稳定性。</p>
+                        </section>
+                    </div>
+                `
+            },
+            'last-day': {
+                title: '叙事引擎：The Last Day of World 制作反思',
+                content: `
+                    <div class="space-y-12">
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">轨道切换叙事结构 (Track Switching Choice)</h5>
+                            <p class="text-slate-600 mb-4">我选择了“轨道切换”（Track Switching Choice）的游戏叙事结构。玩家的每一个决定——比如是否开窗观察、是否搜集防御物资——都会直接影响故事的走向。我需要关注每个选择带来的后果，通过精心设计的逻辑网，让玩家体验“选择的重要性”。虽然结局可能受限，但游戏过程的决策却赋予了玩家情感上的参与感。</p>
+                            <div class="bg-slate-50 rounded-2xl border border-slate-100 p-8">
+                                <p class="text-slate-400 text-sm text-center mb-4">叙事逻辑流程图</p>
+                                <img src="叙事逻辑流程图.png" class="log-image shadow-md">
+                            </div>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">关于“选择的幻觉”与情感价值</h5>
+                            <p class="text-slate-600 leading-relaxed mb-6">我认为游戏中的选择往往带有一种“幻觉”成分。即便结局在上帝视角上是预设好的，但在实际游玩过程中，通过细节的分支，玩家会感受到真实的代入感。这种选择的自由存在于细节和过程，即使结局由设计师引导，但其带来的沉浸感依然能够引发玩家对生存与抉择的思考。</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="p-5 bg-slate-50 rounded-xl border border-slate-100">
+                                    <h6 class="font-bold text-slate-800 mb-2">外部影响 (External)</h6>
+                                    <p class="text-sm text-slate-500">玩家的决策直接决定角色在危机中的生死存亡，赋予决策真实的分量。</p>
+                                </div>
+                                <div class="p-5 bg-slate-50 rounded-xl border border-slate-100">
+                                    <h6 class="font-bold text-slate-800 mb-2">后果性 (Consequence)</h6>
+                                    <p class="text-sm text-slate-500">通过分支叙事，让每一个简单的点击都成为一场与命运的赌博，你就是游戏主角。</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-sky-600">自我改进与未来展望</h5>
+                            <p class="text-slate-600 leading-relaxed">受限于时间和技术，结局多样性仍有提升空间。如果未来有机会，我会希望探索更多元的分支路径和更复杂的情节变化，进一步增强叙事的开放性和重玩价值，真正发挥“轨道切换”游戏叙事结构的潜力。</p>
+                        </section>
+                    </div>
+                `
+            },
+            'dragon-plush': {
+                title: '龙型布偶：3D 建模与渲染日志',
+                content: `
+                    <div class="space-y-12">
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-purple-600">非对称 UV 展开挑战：解决扭曲难题</h5>
+                            <p class="text-slate-600 mb-4">相比建模，UV 映射的过程对我来说充满了未知的困难。最大的难题是处理弯曲的龙尾。尾巴作为一个非对称物体，传统的 UV 切割方式（如后端切割）会导致展开后的纹理严重扭曲。我尝试了多种方法，最终发现从龙尾前段开始并进行中线切割效果最好，虽然展开图依然不对称，但彻底解决了扭曲问题。</p>
+                            <img src="龙型布偶制作日志1.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：UV Editor 中对非对称尾部进行的 UV 展开与优化</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-purple-600">材质表现：以织物纹理模拟逼真毛皮</h5>
+                            <p class="text-slate-600 mb-4">由于模型是一个布偶玩具，我需要实现一种逼真的毛绒感。通过研究，我没有使用复杂的 Maya Fur (皮毛) 命令，而是在 Hypershade 中通过调节 Fabric (织物) 纹理及其 Bump 映射值来实现。这种方法不仅渲染速度更快，且最终呈现出的细节质感非常符合“布偶”的主题。</p>
+                            <img src="龙型布偶制作日志2.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：Hypershade 材质节点连接一览</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-purple-600">摄影机设置：景深 (DOF) 的精细控制</h5>
+                            <p class="text-slate-600 mb-4">渲染时的相机的设置是我遇到的另一个麻烦。最初测试时，由于焦距设置不当，模型和背景都非常模糊。我花费了大量时间微调相机视角、焦距以及景深参数，最终在确保模型主体锐利突出的同时，实现了背景完美的虚化效果，极大增强了画面的真实感。</p>
+                            <img src="龙型布偶制作日志3.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：多角度摄影机布局与景深控制参数调节</p>
+                        </section>
+                    </div>
+                `
+            },
+            'social-distance': {
+                title: '“社交距离”：Maya 动画制作全流程',
+                content: `
+                    <div class="space-y-12">
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-purple-600">建模初识：将系统化知识付诸实践</h5>
+                            <p class="text-slate-600 mb-4">使用 Maya 制作动画远不只是建模，核心难点在于如何让模型以合理、流畅的方式动起来。因此我需要考虑房子布局、球体间的互动以及后续的动画 Time line 的编辑。</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <img src="社交距离制作日志1.png" class="log-image m-0 shadow-md">
+                                <img src="社交距离制作日志2.png" class="log-image m-0 shadow-md">
+                            </div>
+                            <p class="text-slate-500 text-xs italic text-center">图：Maya 场景搭建与着色器初步应用</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-purple-600">材质节点设计：避开视觉上的“不自然感”</h5>
+                            <p class="text-slate-600 mb-4">着色器和纹理的选择会直接影响成品的视觉观感。我花费了大量时间在 Hypershade 中调试材质球（如门和地面的纹理），并通过对 Bump Map 的精细调节来增加真实度。</p>
+                            <img src="社交距离制作日志3.png" class="log-image shadow-md">
+                            <p class="text-slate-500 text-xs italic text-center">图：Hypershade 材质节点连接设计</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-purple-600">动画逻辑：非同步的独立运动轨迹</h5>
+                            <p class="text-slate-600 mb-4">本项目最大的技术难点是编辑三个球体的运动轨迹。为了让动作显得灵动而非死板同步，我为每个球体编辑了完全独立的位移、缩放和旋转关键帧。这是一个极其繁杂的过程，单个球体可能涉及数百帧。我必须在 Outliner 中非常小心地调试对象，避免任何一个轴向的误操作导致整段动画的错位。</p>
+                            <div class="space-y-4">
+                                <img src="社交距离制作日志4.png" class="log-image m-0 shadow-md">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <img src="社交距离制作日志5.png" class="log-image m-0 shadow-md">
+                            </div>
+                            <p class="text-slate-500 text-xs italic text-center">图：逐帧编辑界面与 Outliner 层级管理</p>
+                        </section>
+
+                        <section>
+                            <h5 class="text-xl font-bold mb-4 text-purple-600">音后期与合成：隐喻的完成</h5>
+                            <p class="text-slate-600 mb-4">动画通过球体间的互动与隔离墙的升起，隐喻了疫情如何强行改变了人们的物理社交模式。为了增强视听体验，我导出了渲染序列帧，并尝试使用 WavePad 独立处理背景音乐，最后在 Adobe Premiere 中完成了音画同步的最终合成，并完成完整的 3D 动画 Pipeline创作。</p>
+                            <div class="space-y-4">
+                                <img src="社交距离制作日志6.png" class="log-image shadow-md">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <img src="社交距离制作日志7.png" class="log-image m-0 shadow-md">
+                                    <img src="社交距离制作日志8.png" class="log-image m-0 shadow-md">
+                                </div>
+                            </div>
+                            <p class="text-slate-500 text-xs italic text-center">图：渲染序列、音频处理及最终 Pr 后期合成</p>
+                        </section>
+                    </div>
+                `
+            }
+        };
+
+        function openLog(id) {
+            const log = logs[id];
+            if (!log) return;
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <h3 class="text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">${log.title}</h3>
+                <div class="prose prose-slate max-w-none">
+                    ${log.content}
+                </div>
+            `;
+            document.getElementById('log-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeLog(event) {
+            document.getElementById('log-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>
